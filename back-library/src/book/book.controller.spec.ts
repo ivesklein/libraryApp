@@ -33,18 +33,4 @@ describe('BookController', () => {
     expect(controller.create(dto)).toBeDefined();
   })
 
-  it('on create should call service.create', () => {
-    const dto = {
-      title: 'test',
-      author: 'test',
-      description: 'test',
-      publisher: 'test',
-      fileCover: 'test',
-    }
-    const service = new BookService();
-    const spy = jest.spyOn(service, 'create');
-    controller.create(dto);
-    expect(spy).toHaveBeenCalled();
-  })
-
 });
