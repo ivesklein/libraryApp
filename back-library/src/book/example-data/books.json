@@ -1,0 +1,170 @@
+[
+  {
+    "title": "The Great Gatsby",
+    "description": "A novel about the American Dream set in the Jazz Age",
+    "author": "F. Scott Fitzgerald",
+    "publisher": "Scribner",
+    "fileCover": "great-gatsby.jpg"
+  },
+  {
+    "title": "To Kill a Mockingbird",
+    "description": "A novel about racial injustice and moral growth in the American South",
+    "author": "Harper Lee",
+    "publisher": "J.B. Lippincott & Co.",
+    "fileCover": "mockingbird.jpg"
+  },
+  {
+    "title": "1984",
+    "description": "A dystopian novel about totalitarianism and surveillance",
+    "author": "George Orwell",
+    "publisher": "Secker & Warburg",
+    "fileCover": "1984.jpg"
+  },
+  {
+    "title": "Pride and Prejudice",
+    "description": "A romantic novel of manners set in early 19th-century England",
+    "author": "Jane Austen",
+    "publisher": "T. Egerton",
+    "fileCover": "pride-prejudice.jpg"
+  },
+  {
+    "title": "The Hobbit",
+    "description": "A fantasy novel about the adventures of Bilbo Baggins",
+    "author": "J.R.R. Tolkien",
+    "publisher": "George Allen & Unwin",
+    "fileCover": "hobbit.jpg"
+  },
+  {
+    "title": "Harry Potter and the Philosopher's Stone",
+    "description": "The first book in the Harry Potter series about a young wizard",
+    "author": "J.K. Rowling",
+    "publisher": "Bloomsbury",
+    "fileCover": "harry-potter.jpg"
+  },
+  {
+    "title": "The Lord of the Rings",
+    "description": "An epic high-fantasy novel about the quest to destroy the One Ring",
+    "author": "J.R.R. Tolkien",
+    "publisher": "George Allen & Unwin",
+    "fileCover": "lotr.jpg"
+  },
+  {
+    "title": "The Catcher in the Rye",
+    "description": "A novel about teenage alienation and loss of innocence",
+    "author": "J.D. Salinger",
+    "publisher": "Little, Brown and Company",
+    "fileCover": "catcher.jpg"
+  },
+  {
+    "title": "Brave New World",
+    "description": "A dystopian novel about a futuristic society controlled by technology",
+    "author": "Aldous Huxley",
+    "publisher": "Chatto & Windus",
+    "fileCover": "brave-new-world.jpg"
+  },
+  {
+    "title": "The Alchemist",
+    "description": "A philosophical novel about a shepherd boy's journey to find treasure",
+    "author": "Paulo Coelho",
+    "publisher": "HarperOne",
+    "fileCover": "alchemist.jpg"
+  },
+  {
+    "title": "Crime and Punishment",
+    "description": "A psychological novel about a poor student who commits murder",
+    "author": "Fyodor Dostoevsky",
+    "publisher": "The Russian Messenger",
+    "fileCover": "crime-punishment.jpg"
+  },
+  {
+    "title": "One Hundred Years of Solitude",
+    "description": "A landmark novel in magical realism about the Buendía family",
+    "author": "Gabriel García Márquez",
+    "publisher": "Harper & Row",
+    "fileCover": "solitude.jpg"
+  },
+  {
+    "title": "The Odyssey",
+    "description": "An ancient Greek epic poem about Odysseus's journey home after the Trojan War",
+    "author": "Homer",
+    "publisher": "Oxford University Press",
+    "fileCover": "odyssey.jpg"
+  },
+  {
+    "title": "Moby-Dick",
+    "description": "A novel about Captain Ahab's obsessive quest for revenge against a white whale",
+    "author": "Herman Melville",
+    "publisher": "Harper & Brothers",
+    "fileCover": "moby-dick.jpg"
+  },
+  {
+    "title": "Don Quixote",
+    "description": "A Spanish novel about a man who loses his sanity and becomes a knight errant",
+    "author": "Miguel de Cervantes",
+    "publisher": "Francisco de Robles",
+    "fileCover": "don-quixote.jpg"
+  },
+  {
+    "title": "Animal Farm",
+    "description": "An allegorical novella about the Russian Revolution and Stalinism",
+    "author": "George Orwell",
+    "publisher": "Secker & Warburg",
+    "fileCover": "animal-farm.jpg"
+  },
+  {
+    "title": "Sense and Sensibility",
+    "description": "A novel about the Dashwood sisters and their romantic experiences",
+    "author": "Jane Austen",
+    "publisher": "T. Egerton",
+    "fileCover": "sense-sensibility.jpg"
+  },
+  {
+    "title": "Emma",
+    "description": "A novel about a young woman's misguided matchmaking attempts",
+    "author": "Jane Austen",
+    "publisher": "John Murray",
+    "fileCover": "emma.jpg"
+  },
+  {
+    "title": "The Silmarillion",
+    "description": "A collection of mythopoeic stories that form the background to Middle-earth",
+    "author": "J.R.R. Tolkien",
+    "publisher": "George Allen & Unwin",
+    "fileCover": "silmarillion.jpg"
+  },
+  {
+    "title": "Harry Potter and the Chamber of Secrets",
+    "description": "The second book in the Harry Potter series",
+    "author": "J.K. Rowling",
+    "publisher": "Bloomsbury",
+    "fileCover": "chamber-secrets.jpg"
+  },
+  {
+    "title": "Harry Potter and the Prisoner of Azkaban",
+    "description": "The third book in the Harry Potter series",
+    "author": "J.K. Rowling",
+    "publisher": "Bloomsbury",
+    "fileCover": "prisoner-azkaban.jpg"
+  },
+  {
+    "title": "The Brothers Karamazov",
+    "description": "A philosophical novel about faith, doubt, and morality",
+    "author": "Fyodor Dostoevsky",
+    "publisher": "The Russian Messenger",
+    "fileCover": "brothers-karamazov.jpg"
+  },
+  {
+    "title": "The Idiot",
+    "description": "A novel about a good man's effect on a corrupt society",
+    "author": "Fyodor Dostoevsky",
+    "publisher": "The Russian Messenger",
+    "fileCover": "idiot.jpg"
+  },
+  {
+    "title": "Love in the Time of Cholera",
+    "description": "A novel about love and aging",
+    "author": "Gabriel García Márquez",
+    "publisher": "Alfred A. Knopf",
+    "fileCover": "love-cholera.jpg"
+  }
+]

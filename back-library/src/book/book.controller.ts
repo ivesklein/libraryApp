@@ -12,7 +12,7 @@ export class BookController {
 
   @Post()
   @ApiOperation({ summary: 'Creates a book' })
-  @ApiResponse({ status: 200, description: 'item added with the id' })
+  @ApiResponse({ status: 201, description: 'item added with the id' })
   create(@Body() createBookDto: CreateBookDto) {
     return this.bookService.create(createBookDto);
   }
