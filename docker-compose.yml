@@ -1,7 +1,7 @@
 services:
   api:
     build:
-      context: ./back-library
+      context: .
       dockerfile: Dockerfile
     container_name: library-api
     ports:

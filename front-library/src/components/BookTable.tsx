@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import BookModal from './BookModal';
+//import BookModal from './BookModal';
 
 interface Book {
   id: number;
@@ -16,14 +16,14 @@ interface BookTableProps {
   onSaveBook?: (book: Omit<Book, 'id'> & { id?: number }) => void;
 }
 
-const BookTable = ({ books, onDeleteBook, onEditBook, onSaveBook }: BookTableProps) => {
+const BookTable = ({ books, onDeleteBook, /*onEditBook, onSaveBook*/ }: BookTableProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortField, setSortField] = useState<keyof Book>('title');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [currentPage, setCurrentPage] = useState(1);
   const booksPerPage = 5;
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingBook, setEditingBook] = useState<Book | undefined>(undefined);
+  const [_isModalOpen, setIsModalOpen] = useState(false);
+  const [_editingBook, setEditingBook] = useState<Book | undefined>(undefined);
 
   const handleSort = (field: keyof Book) => {
     if (field === sortField) {
@@ -150,22 +150,6 @@ const BookTable = ({ books, onDeleteBook, onEditBook, onSaveBook }: BookTablePro
           </button>
         </div>
       )}
-
-      <BookModal
-        isOpen={isModalOpen}
-        book={editingBook}
-        onClose={() => {
-          setIsModalOpen(false);
-          setEditingBook(undefined);
-        }}
-        onSave={(bookData) => {
-          setIsModalOpen(false);
-          if (onSaveBook) {
-            onSaveBook(bookData);
-          }
-          setEditingBook(undefined);
-        }}
-      />
     </div>
   );
 };
