@@ -1,7 +1,7 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import { Book } from './entities/book.entity';
-import { Author } from '../author/entities/author.entity';
-import { Publisher } from '../publisher/entities/publisher.entity';
+import { BookEntity } from './entities/book.entity';
+import { AuthorEntity } from '../author/entities/author.entity';
+import { PublisherEntity } from '../publisher/entities/publisher.entity';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -9,11 +9,11 @@ import * as path from 'path';
 export class BookSeeder implements OnModuleInit {
   constructor(
     @Inject('BOOK_REPOSITORY')
-    private bookRepository: typeof Book,
+    private bookRepository: typeof BookEntity,
     @Inject('AUTHOR_REPOSITORY')
-    private authorRepository: typeof Author,
+    private authorRepository: typeof AuthorEntity,
     @Inject('PUBLISHER_REPOSITORY')
-    private publisherRepository: typeof Publisher,
+    private publisherRepository: typeof PublisherEntity,
   ) {}
 
   async onModuleInit() {

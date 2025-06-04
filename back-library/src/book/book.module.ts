@@ -1,23 +1,20 @@
 import { Module } from '@nestjs/common';
 import { BookService } from './book.service';
 import { BookController } from './book.controller';
-import { BookCsvController } from './book-csv.controller';
+import { DatabaseModule } from '../database/database.module';
 import { bookProviders } from './book.providers';
 import { authorProviders } from '../author/author.providers';
 import { publisherProviders } from '../publisher/publisher.providers';
-import { DatabaseModule } from '../database/database.module';
-import { BookSeeder } from './book.seeder';
-import { AuthModule } from '../auth/auth.module';
+import { BookCsvController } from './book-csv.controller';
 
 @Module({
-  imports: [DatabaseModule, AuthModule],
+  imports: [DatabaseModule],
   controllers: [BookController, BookCsvController],
   providers: [
     BookService,
-    BookSeeder,
     ...bookProviders,
     ...authorProviders,
-    ...publisherProviders
-  ]
+    ...publisherProviders,
+  ],
 })
 export class BookModule {}

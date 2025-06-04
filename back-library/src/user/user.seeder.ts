@@ -1,11 +1,12 @@
 import { Injectable, Inject, OnModuleInit } from '@nestjs/common';
-import { User } from './entities/user.entity';
+import { IUserRepository } from './repositories/user.repository.interface';
+import { UserModel } from './models/user.model';
 
 @Injectable()
 export class UserSeeder implements OnModuleInit {
   constructor(
-    @Inject('USER_REPOSITORY')
-    private userRepository: typeof User,
+    @Inject('IUserRepository')
+    private userRepository: IUserRepository,
   ) {}
 
   async onModuleInit() {
@@ -14,16 +15,16 @@ export class UserSeeder implements OnModuleInit {
 
   async seed() {
     // Check if user already exists
-    const existingUser = await this.userRepository.findOne({
-      where: { username: 'user' },
-    });
+    const existingUser = await this.userRepository.findOne({ username: 'user' });
 
     if (!existingUser) {
       // create dummy user
-      await this.userRepository.create({
+      const newUser = new UserModel({
         username: 'user',
         password: 'pass',
       });
+      
+      await this.userRepository.create(newUser);
       console.log('Default user created');
     }
   }

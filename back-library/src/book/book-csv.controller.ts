@@ -20,11 +20,11 @@ export class BookCsvController {
     const books = result.data;
     
     // Create CSV header
-    const csvHeader = 'id,title,description,author,publisher,available,createdAt,updatedAt\n';
+    const csvHeader = 'title,description,author,publisher,available\n';
     
     // Create CSV rows
     const csvRows = books.map(book => {
-      return `${book.id},"${book.title?.replace(/"/g, '""') || ''}","${book.description?.replace(/"/g, '""') || ''}","${book.author?.replace(/"/g, '""') || ''}","${book.publisher?.replace(/"/g, '""') || ''}",${book.available},${book.createdAt},${book.updatedAt}`;
+      return `"${book.title?.replace(/"/g, '""') || ''}","${book.description?.replace(/"/g, '""') || ''}","${book.author?.replace(/"/g, '""') || ''}","${book.publisher?.replace(/"/g, '""') || ''}",${book.available}`;
     }).join('\n');
     
     // Combine header and rows

@@ -1,9 +1,9 @@
 import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
-import { Author } from '../../author/entities/author.entity';
-import { Publisher } from '../../publisher/entities/publisher.entity';
+import { AuthorEntity } from '../../author/entities/author.entity';
+import { PublisherEntity } from '../../publisher/entities/publisher.entity';
 
 @Table
-export class Book extends Model {
+export class BookEntity extends Model {
   @Column({
     type: DataType.INTEGER,
     autoIncrement: true,
@@ -17,24 +17,24 @@ export class Book extends Model {
   })
   title: string;
 
-  @ForeignKey(() => Author)
+  @ForeignKey(() => AuthorEntity)
   @Column
   authorId: number;
 
-  @BelongsTo(() => Author)
-  author: Author;
+  @BelongsTo(() => AuthorEntity)
+  author: AuthorEntity;
 
   @Column({
     type: DataType.TEXT,
   })
   description: string;
 
-  @ForeignKey(() => Publisher)
+  @ForeignKey(() => PublisherEntity)
   @Column
   publisherId: number;
 
-  @BelongsTo(() => Publisher)
-  publisher: Publisher;
+  @BelongsTo(() => PublisherEntity)
+  publisher: PublisherEntity;
 
   @Column
   fileCover: string;

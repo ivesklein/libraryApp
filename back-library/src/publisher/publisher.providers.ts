@@ -1,8 +1,8 @@
-import { Publisher } from './entities/publisher.entity';
+import { PublisherEntity } from './entities/publisher.entity';
 
 export const publisherProviders = [
   {
     provide: 'PUBLISHER_REPOSITORY',
-    useValue: Publisher,
+    useValue: PublisherEntity,
   },
 ];

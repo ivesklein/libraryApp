@@ -1,8 +1,8 @@
 import { Sequelize } from 'sequelize-typescript';
-import { Book } from '../book/entities/book.entity';
-import { Author } from '../author/entities/author.entity';
-import { Publisher } from '../publisher/entities/publisher.entity';
-import { User } from '../user/entities/user.entity';
+import { BookEntity } from '../book/entities/book.entity';
+import { AuthorEntity } from '../author/entities/author.entity';
+import { PublisherEntity } from '../publisher/entities/publisher.entity';
+import { UserEntity } from '../user/entities/user.entity';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -19,7 +19,7 @@ export const databaseProviders = [
         password: process.env.DB_PASSWORD || 'postgres',
         database: process.env.DB_DATABASE || 'library',
       });
-      sequelize.addModels([Book, Author, Publisher, User]);
+      sequelize.addModels([BookEntity, AuthorEntity, PublisherEntity, UserEntity]);
       await sequelize.sync();
       return sequelize;
     },

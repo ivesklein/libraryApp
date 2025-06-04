@@ -1,8 +1,8 @@
 import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript';
-import { Book } from '../../book/entities/book.entity';
+import { BookEntity } from '../../book/entities/book.entity';
 
 @Table
-export class Publisher extends Model {
+export class PublisherEntity extends Model {
   @Column({
     type: DataType.INTEGER,
     autoIncrement: true,
@@ -16,6 +16,6 @@ export class Publisher extends Model {
   })
   name: string;
 
-  @HasMany(() => Book)
-  books: Book[];
+  @HasMany(() => BookEntity)
+  books: BookEntity[];
 }
