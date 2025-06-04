@@ -9,6 +9,11 @@ const sampleBooks = [
   { id: 3, title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', publisher: 'Charles Scribner\'s Sons', available: true },
   { id: 4, title: 'Pride and Prejudice', author: 'Jane Austen', publisher: 'T. Egerton', available: true },
   { id: 5, title: 'The Catcher in the Rye', author: 'J.D. Salinger', publisher: 'Little, Brown and Company', available: false },
+  { id: 6, title: 'The Hobbit', author: 'J.R.R. Tolkien', publisher: 'George Allen & Unwin', available: true },
+  { id: 7, title: 'The Da Vinci Code', author: 'Dan Brown', publisher: 'Doubleday', available: true },
+  { id: 8, title: 'The Alchemist', author: 'Paulo Coelho', publisher: 'HarperCollins', available: false },
+  { id: 9, title: 'The Lord of the Rings', author: 'J.R.R. Tolkien', publisher: 'George Allen & Unwin', available: true },
+  { id: 10, title: 'The Hunger Games', author: 'Suzanne Collins', publisher: 'Scholastic Press', available: true }
 ];
 
 function App() {

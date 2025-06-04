@@ -43,6 +43,7 @@ button {
   transition: border-color 0.25s;
   font-family: monospace;
   color: white;
+  margin: 1px;;
 }
 button:hover {
   border-color: #797979;
@@ -86,6 +87,28 @@ table td[data-column="available"] {
   width: 85px;
 }
 
+table th[data-column="actions"],
+table td[data-column="actions"] {
+  width: 160px;
+  text-align: center;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination button.active {
+  background-color: #646cff;
+}
+
 input{
   border: 2px rgb(156, 156, 156) solid;
   margin: 1px;
@@ -96,4 +119,50 @@ input{
 
 input:focus{
   outline: none;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #333;
+  padding: 20px;
+  border: 2px solid rgb(156, 156, 156);
+  width: 400px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
 }
