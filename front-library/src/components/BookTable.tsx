@@ -15,6 +15,8 @@ const BookTable = ({ onDeleteBook, onSaveBook }: BookTableProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortField, setSortField] = useState<keyof Book>('title');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [secondarySortField, setSecondarySortField] = useState<keyof Book | null>(null);
+  const [secondarySortDirection, setSecondarySortDirection] = useState<'asc' | 'desc'>('asc');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalBooks, setTotalBooks] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,6 +38,10 @@ const BookTable = ({ onDeleteBook, onSaveBook }: BookTableProps) => {
         sort1
       };
       
+      if (secondarySortField) {
+        params.sort2 = secondarySortDirection === 'asc' ? secondarySortField : `-${secondarySortField}`;
+      }
+      
       if (searchTerm) {
         params.query = searchTerm;
       }
@@ -55,7 +61,7 @@ const BookTable = ({ onDeleteBook, onSaveBook }: BookTableProps) => {
 
   useEffect(() => {
     fetchBooks();
-  }, [currentPage, sortField, sortDirection]);
+  }, [currentPage, sortField, sortDirection, secondarySortField, secondarySortDirection]);
 
   // Debounce search term changes
   useEffect(() => {
@@ -69,7 +75,18 @@ const BookTable = ({ onDeleteBook, onSaveBook }: BookTableProps) => {
   const handleSort = (field: keyof Book) => {
     if (field === sortField) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else if (field === secondarySortField) {
+      setSecondarySortDirection(secondarySortDirection === 'asc' ? 'desc' : 'asc');
+      // If secondary field becomes primary, clear secondary
+      setSecondarySortField(null);
+      setSortField(field);
+      setSortDirection(secondarySortDirection);
     } else {
+      // Set current primary sort as secondary
+      if (sortField !== field) {
+        setSecondarySortField(sortField);
+        setSecondarySortDirection(sortDirection);
+      }
       setSortField(field);
       setSortDirection('asc');
     }
@@ -129,16 +146,19 @@ const BookTable = ({ onDeleteBook, onSaveBook }: BookTableProps) => {
         <thead>
           <tr>
             <th data-column="title" onClick={() => handleSort('title')}>
-              Title {sortField === 'title' && (sortDirection === 'asc' ? '▲' : '▼')}
+              Title {sortField === 'title' ? (sortDirection === 'asc' ? '▲' : '▼') : secondarySortField === 'title' ? (secondarySortDirection === 'asc' ? '▲²' : '▼²') : ''}
             </th>
             <th data-column="author" onClick={() => handleSort('author')}>
-              Author {sortField === 'author' && (sortDirection === 'asc' ? '▲' : '▼')}
+              Author {sortField === 'author' ? (sortDirection === 'asc' ? '▲' : '▼') : secondarySortField === 'author' ? (secondarySortDirection === 'asc' ? '▲²' : '▼²') : ''}
             </th>
             <th data-column="publisher" onClick={() => handleSort('publisher')}>
-              Publisher {sortField === 'publisher' && (sortDirection === 'asc' ? '▲' : '▼')}
+              Publisher {sortField === 'publisher' ? (sortDirection === 'asc' ? '▲' : '▼') : secondarySortField === 'publisher' ? (secondarySortDirection === 'asc' ? '▲²' : '▼²') : ''}
+            </th>
+            <th data-column="description" onClick={() => handleSort('description')}>
+              Description {sortField === 'description' ? (sortDirection === 'asc' ? '▲' : '▼') : secondarySortField === 'description' ? (secondarySortDirection === 'asc' ? '▲²' : '▼²') : ''}
             </th>
             <th data-column="available" onClick={() => handleSort('available')}>
-              Available {sortField === 'available' && (sortDirection === 'asc' ? '▲' : '▼')}
+              Available {sortField === 'available' ? (sortDirection === 'asc' ? '▲' : '▼') : secondarySortField === 'available' ? (secondarySortDirection === 'asc' ? '▲²' : '▼²') : ''}
             </th>
             <th data-column="actions">Actions</th>
           </tr>
@@ -154,6 +174,7 @@ const BookTable = ({ onDeleteBook, onSaveBook }: BookTableProps) => {
                 <td data-column="title">{book.title}</td>
                 <td data-column="author">{book.author}</td>
                 <td data-column="publisher">{book.publisher}</td>
+                <td data-column="description">{book.description}</td>
                 <td data-column="available">{book.available ? 'Yes' : 'No'}</td>
                 <td data-column="actions">
                   <button onClick={() => {

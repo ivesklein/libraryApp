@@ -75,10 +75,13 @@ export class BookRepository implements IBookRepository {
 
     if (query) {
       const { Op } = require('sequelize');
-      includeOptions[0]["where"] = {
-        name: { [Op.like]: `%${query}%` }
-      };
-      whereClause['title'] = { [Op.like]: `%${query}%` };
+      const sequelize = this.bookEntityRepository.sequelize;
+      
+      whereClause[Op.or] = [
+        { title: { [Op.like]: `%${query}%` } },
+        { description: { [Op.like]: `%${query}%` } },
+        sequelize.literal(`"author"."name" LIKE '%${query}%'`)
+      ];
     }
 
     const order = [];
@@ -112,7 +115,8 @@ export class BookRepository implements IBookRepository {
       limit,
       offset: skip,
       include: includeOptions,
-      order
+      order,
+      distinct: true
     });
 
     // Map to domain models

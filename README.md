@@ -26,11 +26,6 @@ A web application for managing a library's book collection.
 - Tests covering everything
 - Image uploader
 - DB Indexation
-- logout on 403
-- double sort ui
-- check search
-- add description in table
-- ui validations
 
 ## Design Decisions
 

@@ -12,6 +12,7 @@ export interface Book {
   title: string;
   author: string;
   publisher: string;
+  description?: string;
   available: boolean;
 }
 

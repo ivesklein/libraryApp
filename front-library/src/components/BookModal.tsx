@@ -13,6 +13,7 @@ const BookModal = ({ book, isOpen, onClose, onSave }: BookModalProps) => {
     title: '',
     author: '',
     publisher: '',
+    description: '',
     available: true
   });
 
@@ -24,6 +25,7 @@ const BookModal = ({ book, isOpen, onClose, onSave }: BookModalProps) => {
         title: '',
         author: '',
         publisher: '',
+        description: '',
         available: true
       });
     }
@@ -83,6 +85,16 @@ const BookModal = ({ book, isOpen, onClose, onSave }: BookModalProps) => {
               value={formData.publisher}
               onChange={handleChange}
               required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="description">Description</label>
+            <input
+              type="text"
+              id="description"
+              name="description"
+              value={formData.description || ''}
+              onChange={handleChange}
             />
           </div>
           <div className="form-group">
