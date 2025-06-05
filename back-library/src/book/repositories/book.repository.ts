@@ -44,7 +44,7 @@ export class BookRepository implements IBookRepository {
         fileCover: createBookDto.fileCover,
         authorId: author.id,
         publisherId: publisher.id,
-        available: true,
+        available: createBookDto.available,
         deleted: false,
       }, { transaction: t });
 
@@ -215,6 +215,7 @@ export class BookRepository implements IBookRepository {
       if (updateBookDto.title) book.title = updateBookDto.title;
       if (updateBookDto.description) book.description = updateBookDto.description;
       if (updateBookDto.fileCover) book.fileCover = updateBookDto.fileCover;
+      if (updateBookDto.available !== undefined) book.available = updateBookDto.available;
 
       await book.save({ transaction: t });
       

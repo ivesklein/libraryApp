@@ -181,7 +181,7 @@ const BookTable = ({ onDeleteBook, onSaveBook }: BookTableProps) => {
                       style={{ width: '90px', height: '120px', objectFit: 'cover' }} 
                     />
                   ) : (
-                    <div style={{ width: '90px', height: '120px', backgroundColor: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: '90px', height: '120px', backgroundColor: '#999', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       No Cover
                     </div>
                   )}

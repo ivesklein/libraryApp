@@ -27,6 +27,9 @@ export class CreateBookDto {
     @IsOptional()
     @IsString()
     fileCover: string;
-    //available: boolean;
+    
+    @ApiProperty({ example: true, description: 'Available flag'})
+    @IsOptional()
+    available: boolean;
     //deleted: boolean;
 }

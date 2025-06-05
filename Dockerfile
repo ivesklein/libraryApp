@@ -26,8 +26,8 @@ RUN npm install
 # Copy frontend source code
 COPY front-library/ ./
 
-# Build the frontend in debug mode
-RUN npm run build:debug
+# Build the frontend
+RUN npm run build
 
 # Production stage
 FROM node:20-alpine
