@@ -22,7 +22,7 @@ import { join } from 'path';
       }
     }),
   ],
-  controllers: [AppController],
+  //controllers: [AppController],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
