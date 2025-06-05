@@ -8,10 +8,14 @@ A web application for managing a library's book collection.
 
 ## Usage
 
+### App
 - Open `http://localhost:3000/`
 - Login with:
   - Username: user
   - Password: pass
+
+### Api
+- Open `http://localhost:3000/api` to see the swagger documentation
 
 ## Customization
 
