@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { Book } from '../services/api.service';
+import { processImage } from '../tools/format-img';
 
 interface BookModalProps {
   book?: Book;
@@ -14,7 +15,8 @@ const BookModal = ({ book, isOpen, onClose, onSave }: BookModalProps) => {
     author: '',
     publisher: '',
     description: '',
-    available: true
+    available: true,
+    fileCover: undefined
   });
 
   useEffect(() => {
@@ -26,10 +28,13 @@ const BookModal = ({ book, isOpen, onClose, onSave }: BookModalProps) => {
         author: '',
         publisher: '',
         description: '',
-        available: true
+        available: true,
+        fileCover: undefined
       });
     }
   }, [book, isOpen]);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -37,6 +42,27 @@ const BookModal = ({ book, isOpen, onClose, onSave }: BookModalProps) => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+  };
+  
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    try {
+      // Process the image with the specified dimensions
+      const canvas = await processImage(file, { width: 90, height: 120 });
+      
+      // Convert the processed image to base64
+      const base64Image = canvas.toDataURL('image/jpeg');
+      
+      // Update form data with the processed image
+      setFormData(prev => ({
+        ...prev,
+        fileCover: base64Image
+      }));
+    } catch (error) {
+      console.error('Error processing image:', error);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -96,6 +122,45 @@ const BookModal = ({ book, isOpen, onClose, onSave }: BookModalProps) => {
               value={formData.description || ''}
               onChange={handleChange}
             />
+          </div>
+          <div className="form-group">
+            <label htmlFor="fileCover">Book Cover</label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              {formData.fileCover ? (
+                <img 
+                  src={formData.fileCover} 
+                  alt="Book cover preview" 
+                  style={{ width: '90px', height: '120px', objectFit: 'cover' }} 
+                />
+              ) : (
+                <div style={{ width: '90px', height: '120px', backgroundColor: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  No Cover
+                </div>
+              )}
+              <input
+                type="file"
+                id="fileCover"
+                name="fileCover"
+                accept="image/*"
+                ref={fileInputRef}
+                onChange={handleImageUpload}
+                style={{ display: 'none' }}
+              />
+              <button 
+                type="button" 
+                onClick={() => fileInputRef.current?.click()}
+              >
+                {formData.fileCover ? 'Change Cover' : 'Upload Cover'}
+              </button>
+              {formData.fileCover && (
+                <button 
+                  type="button" 
+                  onClick={() => setFormData(prev => ({ ...prev, fileCover: undefined }))}
+                >
+                  Remove
+                </button>
+              )}
+            </div>
           </div>
           <div className="form-group">
             <label>

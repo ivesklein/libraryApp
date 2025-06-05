@@ -4,6 +4,7 @@ import { AuthorEntity } from '../author/entities/author.entity';
 import { PublisherEntity } from '../publisher/entities/publisher.entity';
 import * as fs from 'fs';
 import * as path from 'path';
+import axios from 'axios';
 
 @Injectable()
 export class BookSeeder implements OnModuleInit {
@@ -46,11 +47,22 @@ export class BookSeeder implements OnModuleInit {
             transaction: t
           });
 
+          // Get book cover from API
+          let coverUrl = '';
+          try {
+            const encodedTitle = encodeURIComponent(bookData.title);
+            const encodedAuthor = encodeURIComponent(bookData.author);
+            const response = await axios.get(`https://bookcover.longitood.com/bookcover?book_title=${encodedTitle}&author_name=${encodedAuthor}`);
+            coverUrl = response.data.url;
+          } catch (error) {
+            console.error(`Failed to fetch cover for ${bookData.title}:`, error.message);
+          }
+
           // Create book
           await this.bookRepository.create({
             title: bookData.title,
             description: bookData.description || '',
-            fileCover: bookData.fileCover || '',
+            fileCover: coverUrl || '',
             authorId: author.id,
             publisherId: publisher.id,
             available: true,

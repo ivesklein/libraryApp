@@ -14,6 +14,7 @@ export interface Book {
   publisher: string;
   description?: string;
   available: boolean;
+  fileCover?: string;
 }
 
 export interface PaginatedBooks {

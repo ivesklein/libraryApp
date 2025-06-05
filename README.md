@@ -24,7 +24,6 @@ A web application for managing a library's book collection.
 
 ## To Do
 - Tests covering everything
-- Image uploader
 - DB Indexation
 
 ## Design Decisions

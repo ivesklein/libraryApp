@@ -20,7 +20,7 @@ export const databaseProviders = [
         database: process.env.DB_DATABASE || 'library',
       });
       sequelize.addModels([BookEntity, AuthorEntity, PublisherEntity, UserEntity]);
-      await sequelize.sync();
+      await sequelize.sync({ alter: true });
       return sequelize;
     },
   },

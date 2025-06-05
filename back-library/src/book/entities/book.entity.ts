@@ -36,7 +36,9 @@ export class BookEntity extends Model {
   @BelongsTo(() => PublisherEntity)
   publisher: PublisherEntity;
 
-  @Column
+  @Column({
+    type: DataType.TEXT('long'),
+  })
   fileCover: string;
 
   @Column({

@@ -145,6 +145,7 @@ const BookTable = ({ onDeleteBook, onSaveBook }: BookTableProps) => {
       <table>
         <thead>
           <tr>
+            <th data-column="cover">Cover</th>
             <th data-column="title" onClick={() => handleSort('title')}>
               Title {sortField === 'title' ? (sortDirection === 'asc' ? '▲' : '▼') : secondarySortField === 'title' ? (secondarySortDirection === 'asc' ? '▲²' : '▼²') : ''}
             </th>
@@ -171,6 +172,20 @@ const BookTable = ({ onDeleteBook, onSaveBook }: BookTableProps) => {
           ) : books.length > 0 ? (
             books.map((book) => (
               <tr key={book.id}>
+                <td data-column="cover">
+                  {book.fileCover ? (
+                    <img 
+                      src={book.fileCover} 
+                      alt={`Cover for ${book.title}`}
+                      className={!book.fileCover.startsWith('data:') ? 'posterized' : ''}
+                      style={{ width: '90px', height: '120px', objectFit: 'cover' }} 
+                    />
+                  ) : (
+                    <div style={{ width: '90px', height: '120px', backgroundColor: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      No Cover
+                    </div>
+                  )}
+                </td>
                 <td data-column="title">{book.title}</td>
                 <td data-column="author">{book.author}</td>
                 <td data-column="publisher">{book.publisher}</td>
