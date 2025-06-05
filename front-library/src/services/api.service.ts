@@ -88,6 +88,12 @@ class ApiService {
     const response = await fetch(url, config);
 
     if (!response.ok) {
+      if (response.status === 401) {
+        // if 401 then logout
+        this.clearToken();
+        // let them know something is not cooking
+        window.dispatchEvent(new CustomEvent('auth:unauthorized'));
+      }
       throw new Error(`API error: ${response.status}`);
     }
 

@@ -13,6 +13,18 @@ function App() {
     if (isAuthenticated) {
       setIsLoggedIn(true);
     }
+    
+    // Listen for unauthorized event (401 responses)
+    const handleUnauthorized = () => {
+      setIsLoggedIn(false);
+      setLoginError('Your session has expired. Please login again.');
+    };
+    
+    window.addEventListener('auth:unauthorized', handleUnauthorized);
+    
+    return () => {
+      window.removeEventListener('auth:unauthorized', handleUnauthorized);
+    };
   }, []);
   
   const handleLogin = async (username: string, password: string) => {
