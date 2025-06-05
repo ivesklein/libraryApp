@@ -1,29 +1,70 @@
-import { useState, useMemo } from 'react';
-//import BookModal from './BookModal';
-
-interface Book {
-  id: number;
-  title: string;
-  author: string;
-  publisher: string;
-  available: boolean;
-}
+import { useState, useEffect } from 'react';
+import BookModal from './BookModal';
+import apiService from '../services/api.service';
+import type { Book, BookPaginationParams } from '../services/api.service';
 
 interface BookTableProps {
-  books: Book[];
   onDeleteBook?: (id: number) => void;
-  onEditBook?: (book: Book) => void;
   onSaveBook?: (book: Omit<Book, 'id'> & { id?: number }) => void;
 }
 
-const BookTable = ({ books, onDeleteBook, /*onEditBook, onSaveBook*/ }: BookTableProps) => {
+const BookTable = ({ onDeleteBook, onSaveBook }: BookTableProps) => {
+  const [books, setBooks] = useState<Book[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortField, setSortField] = useState<keyof Book>('title');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalBooks, setTotalBooks] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingBook, setEditingBook] = useState<Book | undefined>(undefined);
+  
   const booksPerPage = 5;
-  const [_isModalOpen, setIsModalOpen] = useState(false);
-  const [_editingBook, setEditingBook] = useState<Book | undefined>(undefined);
+
+  const fetchBooks = async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const skip = (currentPage - 1) * booksPerPage;
+      const sort1 = sortDirection === 'asc' ? sortField : `-${sortField}`;
+      
+      const params: BookPaginationParams = {
+        skip,
+        limit: booksPerPage,
+        sort1
+      };
+      
+      if (searchTerm) {
+        params.query = searchTerm;
+      }
+      
+      const response = await apiService.getBooks(params);
+      console.log('Fetched books:', response);
+      setBooks(response?.items || []);
+      setTotalBooks(response?.total || 0);
+    } catch (err) {
+      console.error('Failed to fetch books:', err);
+      setError('Failed to load books. Please try again.');
+      setBooks([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBooks();
+  }, [currentPage, sortField, sortDirection]);
+
+  // Debounce search term changes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchBooks();
+    }, 500);
+    
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
 
   const handleSort = (field: keyof Book) => {
     if (field === sortField) {
@@ -34,38 +75,44 @@ const BookTable = ({ books, onDeleteBook, /*onEditBook, onSaveBook*/ }: BookTabl
     }
   };
 
-  const filteredBooks = useMemo(() => {
-    return books
-      .filter(book => 
-        book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        book.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        book.publisher.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      .sort((a, b) => {
-        const aValue = a[sortField];
-        const bValue = b[sortField];
-        
-        if (typeof aValue === 'boolean') {
-          return sortDirection === 'asc' 
-            ? (aValue === bValue ? 0 : aValue ? -1 : 1)
-            : (aValue === bValue ? 0 : aValue ? 1 : -1);
-        }
-        
-        return sortDirection === 'asc'
-          ? String(aValue).localeCompare(String(bValue))
-          : String(bValue).localeCompare(String(aValue));
-      });
-  }, [books, searchTerm, sortField, sortDirection]);
+  const handleDelete = async (id: number) => {
+    try {
+      await apiService.deleteBook(id);
+      fetchBooks();
+      if (onDeleteBook) {
+        onDeleteBook(id);
+      }
+    } catch (err) {
+      console.error('Failed to delete book:', err);
+      setError('Failed to delete book. Please try again.');
+    }
+  };
 
-  // Get current books for pagination
-  const indexOfLastBook = currentPage * booksPerPage;
-  const indexOfFirstBook = indexOfLastBook - booksPerPage;
-  const currentBooks = filteredBooks.slice(indexOfFirstBook, indexOfLastBook);
-  const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
+  const handleSave = async (bookData: Omit<Book, 'id'> & { id?: number }) => {
+    try {
+      if (bookData.id) {
+        await apiService.updateBook(bookData.id, bookData);
+      } else {
+        await apiService.createBook(bookData);
+      }
+      fetchBooks();
+      if (onSaveBook) {
+        onSaveBook(bookData);
+      }
+    } catch (err) {
+      console.error('Failed to save book:', err);
+      setError('Failed to save book. Please try again.');
+    }
+    setIsModalOpen(false);
+    setEditingBook(undefined);
+  };
+
+  const totalPages = Math.ceil(totalBooks / booksPerPage);
 
   return (
     <div>
       <h2>Book Collection</h2>
+      {error && <div style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
         <input
           type="text"
@@ -97,8 +144,12 @@ const BookTable = ({ books, onDeleteBook, /*onEditBook, onSaveBook*/ }: BookTabl
           </tr>
         </thead>
         <tbody>
-          {currentBooks.length > 0 ? (
-            currentBooks.map((book) => (
+          {loading ? (
+            <tr>
+              <td colSpan={5}>Loading books...</td>
+            </tr>
+          ) : books.length > 0 ? (
+            books.map((book) => (
               <tr key={book.id}>
                 <td data-column="title">{book.title}</td>
                 <td data-column="author">{book.author}</td>
@@ -109,7 +160,7 @@ const BookTable = ({ books, onDeleteBook, /*onEditBook, onSaveBook*/ }: BookTabl
                     setEditingBook(book);
                     setIsModalOpen(true);
                   }}>Edit</button>
-                  <button onClick={() => onDeleteBook?.(book.id)}>Delete</button>
+                  <button onClick={() => handleDelete(book.id)}>Delete</button>
                 </td>
               </tr>
             ))
@@ -121,35 +172,45 @@ const BookTable = ({ books, onDeleteBook, /*onEditBook, onSaveBook*/ }: BookTabl
         </tbody>
       </table>
       
-      {filteredBooks.length > 0 && (
+      {totalBooks > 0 && (
         <div className="pagination">
           <button 
             onClick={() => setCurrentPage(1)} 
-            disabled={currentPage === 1}
+            disabled={currentPage === 1 || loading}
           >
             First
           </button>
           <button 
             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
-            disabled={currentPage === 1}
+            disabled={currentPage === 1 || loading}
           >
             Prev
           </button>
           <span>Page {currentPage} of {totalPages}</span>
           <button 
             onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} 
-            disabled={currentPage === totalPages}
+            disabled={currentPage === totalPages || loading}
           >
             Next
           </button>
           <button 
             onClick={() => setCurrentPage(totalPages)} 
-            disabled={currentPage === totalPages}
+            disabled={currentPage === totalPages || loading}
           >
             Last
           </button>
         </div>
       )}
+
+      <BookModal
+        isOpen={isModalOpen}
+        book={editingBook}
+        onClose={() => {
+          setIsModalOpen(false);
+          setEditingBook(undefined);
+        }}
+        onSave={handleSave}
+      />
     </div>
   );
 };

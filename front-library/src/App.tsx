@@ -1,40 +1,49 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import LoginForm from './components/LoginForm'
 import BookTable from './components/BookTable'
-
-// Sample book data
-const sampleBooks = [
-  { id: 1, title: 'To Kill a Mockingbird', author: 'Harper Lee', publisher: 'J. B. Lippincott & Co.', available: true },
-  { id: 2, title: '1984', author: 'George Orwell', publisher: 'Secker & Warburg', available: false },
-  { id: 3, title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', publisher: 'Charles Scribner\'s Sons', available: true },
-  { id: 4, title: 'Pride and Prejudice', author: 'Jane Austen', publisher: 'T. Egerton', available: true },
-  { id: 5, title: 'The Catcher in the Rye', author: 'J.D. Salinger', publisher: 'Little, Brown and Company', available: false },
-  { id: 6, title: 'The Hobbit', author: 'J.R.R. Tolkien', publisher: 'George Allen & Unwin', available: true },
-  { id: 7, title: 'The Da Vinci Code', author: 'Dan Brown', publisher: 'Doubleday', available: true },
-  { id: 8, title: 'The Alchemist', author: 'Paulo Coelho', publisher: 'HarperCollins', available: false },
-  { id: 9, title: 'The Lord of the Rings', author: 'J.R.R. Tolkien', publisher: 'George Allen & Unwin', available: true },
-  { id: 10, title: 'The Hunger Games', author: 'Suzanne Collins', publisher: 'Scholastic Press', available: true }
-];
+import apiService from './services/api.service'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
   
-  const handleLogin = (username: string, password: string) => {
-    console.log('Login attempt:', username, password);
-    // Here you would typically make an API call to authenticate the user
-    setIsLoggedIn(true);
+  useEffect(() => {
+    // Check if user is already logged in
+    const isAuthenticated = apiService.isAuthenticated();
+    if (isAuthenticated) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+  
+  const handleLogin = async (username: string, password: string) => {
+    try {
+      setLoginError(null);
+      await apiService.login({ username, password });
+      setIsLoggedIn(true);
+    } catch (error) {
+      console.error('Login failed:', error);
+      setLoginError('Login failed. Please check your credentials.');
+    }
+  }
+
+  const handleLogout = () => {
+    apiService.logout();
+    setIsLoggedIn(false);
   }
 
   return (
     <div>
       <header>
         <h1>Library App</h1>
+        {isLoggedIn && (
+          <button onClick={handleLogout}>Logout</button>
+        )}
       </header>
       <main>
         {!isLoggedIn ? (
-          <LoginForm onSubmit={handleLogin} />
+          <LoginForm onSubmit={handleLogin} error={loginError} />
         ) : (
-          <BookTable books={sampleBooks} />
+          <BookTable />
         )}
       </main>
     </div>

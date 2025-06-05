@@ -1,12 +1,5 @@
 import { useState, useEffect } from 'react';
-
-interface Book {
-  id: number;
-  title: string;
-  author: string;
-  publisher: string;
-  available: boolean;
-}
+import type { Book } from '../services/api.service';
 
 interface BookModalProps {
   book?: Book;

@@ -2,20 +2,28 @@ import { useState } from 'react';
 
 interface LoginFormProps {
   onSubmit: (username: string, password: string) => void;
+  error?: string | null;
 }
 
-const LoginForm = ({ onSubmit }: LoginFormProps) => {
+const LoginForm = ({ onSubmit, error }: LoginFormProps) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(username, password);
+    setIsLoading(true);
+    try {
+      await onSubmit(username, password);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div>
       <h2>Login</h2>
+      {error && <div style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="username">Username:</label>
@@ -25,6 +33,7 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            disabled={isLoading}
           />
         </div>
         <div>
@@ -35,10 +44,13 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            disabled={isLoading}
           />
         </div>
         <div>
-          <button type="submit">Login</button>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? 'Logging in...' : 'Login'}
+          </button>
         </div>
       </form>
     </div>

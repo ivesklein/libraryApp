@@ -26,8 +26,8 @@ RUN npm install
 # Copy frontend source code
 COPY front-library/ ./
 
-# Build the frontend
-RUN npm run build
+# Build the frontend in debug mode
+RUN npm run build:debug
 
 # Production stage
 FROM node:20-alpine
@@ -42,6 +42,9 @@ RUN npm install --only=production
 
 # Copy built backend
 COPY --from=backend-builder /app/dist ./dist
+
+# Copy books.json to the production image
+COPY --from=backend-builder /app/src/book/example-data/books.json /app/dist/books.json
 
 # Create public directory for static files
 RUN mkdir -p public

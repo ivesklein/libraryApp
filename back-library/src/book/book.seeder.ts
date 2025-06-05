@@ -18,14 +18,14 @@ export class BookSeeder implements OnModuleInit {
 
   async onModuleInit() {
     console.log('Seeding books...');
-    const count = await this.bookRepository.count();
+    const count = await this.bookRepository.count({ where:{ deleted: false }});
     if (count > 5) {
       console.log('Database already seeded with books');
       return;
     }
 
     try {
-      const filePath = path.join('/app/src/book/', 'example-data', 'books.json');
+      const filePath = '/app/dist/books.json';
       const booksData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
       
       const sequelize = this.bookRepository.sequelize;
